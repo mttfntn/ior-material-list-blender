@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Cache Blender
       id: cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ~/blender
         key: blender-${{ inputs.version }}-linux-x64-${{ inputs.sha256 }}

@@ -22,7 +22,7 @@ jobs:
           - version: 5.3.0
             sha256: dacb8264197a3f7fda6001285a5a506fc97ee943881261c2c3bd63c882f22e05
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-blender
         with:
@@ -37,6 +37,8 @@ jobs:
           BLENDER_USER_RESOURCES: ${{ runner.temp }}/blender-profile
         run: blender -b --factory-startup --python-exit-code 1 --python tests/run.py
 
+      # No artifact upload: the account's artifact storage is shared and was full, and
+      # releases already carry the zip. This step only proves the package builds.
       - name: Build package
         run: |
           mkdir -p dist
@@ -49,8 +51,3 @@ jobs:
           blender --command extension install-file -r user_default -e dist/*.zip
           blender -b --python-exit-code 1 --python-expr "import bpy, sys; m = 'bl_ext.user_default.ior_material_list'; assert m in bpy.context.preferences.addons, 'not enabled'; assert m in sys.modules, 'not loaded'; print('installed add-on loads')"
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ior_material_list-blender-${{ matrix.blender.version }}
-          path: dist/*.zip
-          retention-days: 3
