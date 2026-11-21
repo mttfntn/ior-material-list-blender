@@ -1,0 +1,64 @@
+name: Set up Blender
+description: >
+  Download a Blender release for Linux (cached between runs), verify its SHA-256
+  and put `blender` on PATH. Tries download.blender.org first, then official mirrors.
+
+inputs:
+  version:
+    description: Blender version, e.g. 5.3.0
+    required: true
+  sha256:
+    description: SHA-256 of blender-<version>-linux-x64.tar.xz (from download.blender.org/release/BlenderX.Y/blender-<version>.sha256)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Cache Blender
+      id: cache
+      uses: actions/cache@v4
+      with:
+        path: ~/blender
+        key: blender-${{ inputs.version }}-linux-x64-${{ inputs.sha256 }}
+
+    - name: Download Blender
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        SHA256: ${{ inputs.sha256 }}
+      run: |
+        set -euo pipefail
+        series="${VERSION%.*}"                      # 5.3.0 -> 5.3
+        file="blender-${VERSION}-linux-x64.tar.xz"
+        mirrors=(
+          "https://download.blender.org/release"
+          "https://mirrors.ocf.berkeley.edu/blender/release"
+          "https://ftp.nluug.nl/pub/graphics/blender/release"
+          "https://mirror.clarkson.edu/blender/release"
+        )
+        ok=""
+        for m in "${mirrors[@]}"; do
+          url="$m/Blender${series}/${file}"
+          echo "Trying $url"
+          if curl -fL --retry 4 --retry-all-errors --retry-delay 10 --connect-timeout 30 \
+                  -A "github-actions-ci" -o "/tmp/${file}" "$url" \
+             && echo "${SHA256}  /tmp/${file}" | sha256sum -c -; then
+            ok=1; break
+          fi
+          echo "::warning::download or checksum failed from $m"
+          rm -f "/tmp/${file}"
+        done
+        [ -n "$ok" ] || { echo "::error::could not download ${file} from any mirror"; exit 1; }
+        mkdir -p ~/blender
+        tar -xJf "/tmp/${file}" -C ~/blender --strip-components=1
+        rm -f "/tmp/${file}"
+
+    - name: Add Blender to PATH
+      shell: bash
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq libxi6 libxkbcommon0 libxxf86vm1 libxfixes3 libxrender1 \
+          libgl1 libegl1 libsm6 libice6 > /dev/null
+        echo "$HOME/blender" >> "$GITHUB_PATH"
+        "$HOME/blender/blender" --version | head -1

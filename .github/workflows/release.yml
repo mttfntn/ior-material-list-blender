@@ -1,0 +1,55 @@
+name: Release
+
+# Push an annotated tag vX.Y.Z (matching `version` in blender_manifest.toml):
+# runs the tests, builds the package and publishes a GitHub release with the zip
+# attached and the tag's message as the release notes.
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    uses: ./.github/workflows/tests.yml
+
+  release:
+    needs: test
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # actions/checkout fetches the tagged commit but not the annotated tag object,
+      # so the tag message would be lost. Fetch the tag itself.
+      - name: Fetch the tag object
+        run: git fetch --force origin "+refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+
+      - name: Check tag matches the manifest version
+        run: |
+          manifest=$(python3 -c "import tomllib; print(tomllib.load(open('ior_material_list/blender_manifest.toml','rb'))['version'])")
+          [ "v${manifest}" = "${GITHUB_REF_NAME}" ] || { echo "::error::tag ${GITHUB_REF_NAME} but manifest says ${manifest}"; exit 1; }
+
+      - uses: ./.github/actions/setup-blender
+        with:
+          version: 5.3.0
+          sha256: dacb8264197a3f7fda6001285a5a506fc97ee943881261c2c3bd63c882f22e05
+
+      - name: Build package
+        run: |
+          mkdir -p dist
+          blender --factory-startup --command extension build --source-dir ior_material_list --output-dir dist
+          ls -l dist
+
+      - name: Release notes from the tag message
+        run: |
+          [ "$(git cat-file -t "${GITHUB_REF_NAME}")" = "tag" ] || { echo "::error::${GITHUB_REF_NAME} is not an annotated tag (use git tag -a)"; exit 1; }
+          git tag -l --format='%(contents:subject)%0a%0a%(contents:body)' "${GITHUB_REF_NAME}" > notes.md
+          cat notes.md
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/*.zip --verify-tag --title "${GITHUB_REF_NAME}" --notes-file notes.md
