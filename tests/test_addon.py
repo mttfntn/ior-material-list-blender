@@ -77,6 +77,15 @@ class TestManifest(unittest.TestCase):
         self.assertEqual(m["type"], "add-on")
         self.assertRegex(m["version"], r"^\d+\.\d+\.\d+$")
 
+    def test_license_shipped(self):
+        # The package must carry the license; it must match the repo's copy.
+        packaged = os.path.join(ADDON_DIR, "LICENSE")
+        self.assertTrue(os.path.isfile(packaged), "LICENSE missing from the add-on folder")
+        root = os.path.join(os.path.dirname(os.path.abspath(ADDON_DIR)), "LICENSE")
+        if os.path.isfile(root):
+            with open(packaged, "rb") as a, open(root, "rb") as b:
+                self.assertEqual(a.read(), b.read(), "ior_material_list/LICENSE differs from LICENSE")
+
     def test_running_blender_is_supported(self):
         def ver(s):
             return tuple(int(x) for x in s.split("."))
