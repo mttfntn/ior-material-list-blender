@@ -1,10 +1,10 @@
 # IOR Material List for Blender
 
-[![Blender](https://img.shields.io/badge/Blender-5.3-orange?logo=blender&logoColor=white)](https://www.blender.org/download/)
-[![Release](https://img.shields.io/badge/release-v1.3.0-blue)](https://github.com/mttfntn/ior-material-list-blender/releases/latest)
+[![Blender](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmttfntn%2Fior-material-list-blender%2Fmain%2Fior_material_list%2Fblender_manifest.toml&query=%24.blender_version_min&label=Blender&color=E87D0D&logo=blender&logoColor=white)](https://www.blender.org/download/)
+[![Release](https://img.shields.io/github/v/release/mttfntn/ior-material-list-blender)](https://github.com/mttfntn/ior-material-list-blender/releases/latest)
 [![Tests](https://github.com/mttfntn/ior-material-list-blender/actions/workflows/tests.yml/badge.svg)](https://github.com/mttfntn/ior-material-list-blender/actions/workflows/tests.yml)
-[![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-green)](LICENSE)
-[![Python](https://img.shields.io/badge/language-Python-3776AB?logo=python&logoColor=white)](ior_material_list/__init__.py)
+[![License](https://img.shields.io/github/license/mttfntn/ior-material-list-blender)](LICENSE)
+[![Language](https://img.shields.io/github/languages/top/mttfntn/ior-material-list-blender)](https://github.com/mttfntn/ior-material-list-blender)
 
 A searchable list of index-of-refraction (IOR) values in Blender's Shader Editor.
 Find a material, click once, and its IOR is on the clipboard, ready to paste into any IOR field.

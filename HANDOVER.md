@@ -10,7 +10,7 @@ searchable list of 485 materials and their index of refraction. The main action 
 an IOR value to the clipboard. A sub-panel holds 16 metals with complex IOR (n, k), which
 can be applied to Metallic BSDF or Principled BSDF nodes.
 
-- Repository: https://github.com/mttfntn/ior-material-list-blender (private), branch `main`
+- Repository: https://github.com/mttfntn/ior-material-list-blender (public), branch `main`
 - Not a fork. The data comes from three public web pages (see [README](README.md#data-sources)).
 - Supported: **Blender 5.3 only** (`blender_version_min = 5.3.0`, `blender_version_max = 5.4.0`).
 - License: GPL-3.0-or-later.
@@ -111,8 +111,7 @@ as 0.001 in the search tolerance shows up in it.
 ## How to release
 
 1. Set `version` in `ior_material_list/blender_manifest.toml` (for example `1.3.1`).
-2. Update the **Release** badge in `README.md` by hand. The repo is private, so the badges are
-   static, except the Tests badge, which comes from GitHub.
+2. Nothing to change in `README.md`: its release, license and language badges read GitHub, and the Blender badge reads the manifest.
 3. Commit and push to `main`. Wait for the **Tests** workflow to pass.
 4. Create an **annotated** tag whose message is the release notes, and push it:
 
@@ -173,5 +172,5 @@ git diff ior_material_list/ior_data.py    # review every change
 - Number search applies to materials only, not to metals.
 - Drawing in a real window is checked by hand only. The automated tests check the draw calls
   against a recording stand-in.
-- The repository is private: the Release badge must be updated by hand, and the Tests badge only
-  shows for people with access.
+- The repository is public: all README badges are live (release and license from GitHub, the
+  Blender version from the manifest).

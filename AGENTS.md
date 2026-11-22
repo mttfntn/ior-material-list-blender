@@ -4,7 +4,7 @@ Compact guide for AI coding assistants. Human-oriented detail: [HANDOVER.md](HAN
 
 ## Facts
 - Blender extension, id `ior_material_list`, GPL-3.0-or-later. Supports **Blender 5.3 only** (manifest min 5.3.0, max 5.4.0 exclusive).
-- Repo `github.com/mttfntn/ior-material-list-blender` (private), branch `main`. Not a fork.
+- Repo `github.com/mttfntn/ior-material-list-blender` (public), branch `main`. Not a fork.
 - Ships only `ior_material_list/` (manifest, `__init__.py`, `ior_data.py`, `LICENSE`). Root docs/tests/tools are not packed.
 
 ## Commands (run from repo root)
