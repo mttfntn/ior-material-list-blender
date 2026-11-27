@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "ior_material_list"
-version = "1.3.0"
+version = "1.4.0"
 name = "IOR Material List"
 tagline = "Searchable IOR list in the Shader Editor sidebar"
 maintainer = "Matteo Fontana"

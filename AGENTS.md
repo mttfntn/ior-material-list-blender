@@ -27,10 +27,10 @@ Windows Blender: `C:\Program Files\Blender Foundation\Blender 5.3\blender.exe`.
 ## Architecture / data flow
 `ior_data.py` (generated tuples) → `register()` adds `WindowManager` props → timer `_populate_fresh` (0.1 s) and `load_post` `_on_load` fill `wm.ior_items` / `wm.ior_metals` → `IOR_UL_materials.filter_items` (search/source/sort, every redraw) → `IOR_OT_copy` writes `wm.clipboard` (3 decimals; Min/Mid/Max for ranges) / `IOR_OT_apply_metal` writes n,k to Metallic BSDF (PHYSICAL_CONDUCTOR) or F0 color + Metallic=1 to Principled, else adds a Metallic BSDF.
 - `MATERIALS` row: `(name, ior, max_ior|None, category, source)`; `METALS` row: `(name, n_rgb, k_rgb)`.
-- Source ids: `balyberdin`, `pixelandpoly`, `blenderit` — must exist in `SOURCE_SITES` and the `ior_source` enum (tested).
+- Source ids: `balyberdin`, `pixelandpoly`, `blenderit`, `refractiveindex` — must exist in `SOURCE_SITES` and the `ior_source` enum (tested).
 
 ## Rules
-- Never edit `ior_data.py` by hand; change `tools/update_ior_data.py` (`NAME_FIXES`, `BLENDERIT_EXTRA`, parsers) and regenerate.
+- Never edit `ior_data.py` by hand; change `tools/update_ior_data.py` (`NAME_FIXES`, `BLENDERIT_EXTRA`, `RI_PAGES`, parsers) and regenerate.
 - Operator/Panel docstrings are user tooltips: put developer notes in `#` comments.
 - No `bl_info`; metadata lives in `blender_manifest.toml` only. Bump `version` there for releases.
 - `unregister()` must undo everything `register()` does, including the pending timer.
@@ -50,7 +50,7 @@ Windows Blender: `C:\Program Files\Blender Foundation\Blender 5.3\blender.exe`.
 - Built zip installed into a scratch profile; windowed smoke test: list filled by timer, real clipboard `2.422`, metal applied, no pending timer after unregister.
 
 ## Release checklist
-1. Bump `version` in `ior_material_list/blender_manifest.toml`; update the static Release badge in `README.md`.
+1. Bump `version` in `ior_material_list/blender_manifest.toml` (README badges are live; nothing to edit there).
 2. Tests pass locally and on CI (`tests.yml`).
 3. `git tag -a vX.Y.Z -m "vX.Y.Z" -m "notes"` → `git push origin vX.Y.Z`.
 4. `release.yml`: tests → checks tag == manifest version → builds → `gh release create` with zip and tag message.

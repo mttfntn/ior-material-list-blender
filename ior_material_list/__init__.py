@@ -16,7 +16,7 @@ How the pieces fit together:
   a metal's complex IOR (n, k) into Metallic BSDF or Principled BSDF nodes.
 
 Data sources: https://balyberdin.com/tools/ior-list/, https://pixelandpoly.com/ior.html,
-https://community.blender.it/forums/topic/indice-ior-per-materiale/
+https://community.blender.it/forums/topic/indice-ior-per-materiale/, https://refractiveindex.info/
 Add-on metadata (name, version, supported Blender) lives in blender_manifest.toml.
 """
 
@@ -32,6 +32,7 @@ SOURCE_SITES = {
     "balyberdin": "balyberdin.com",
     "pixelandpoly": "pixelandpoly.com",
     "blenderit": "community.blender.it",
+    "refractiveindex": "refractiveindex.info",
 }
 
 # --------------------------------------------------------------------------- data
@@ -368,6 +369,7 @@ def register():
         ("balyberdin", "Balyberdin (curated)", "balyberdin.com/tools/ior-list"),
         ("pixelandpoly", "Pixel & Poly (A–Z)", "pixelandpoly.com/ior.html"),
         ("blenderit", "Blender Italia (extra)", "community.blender.it/forums/topic/indice-ior-per-materiale"),
+        ("refractiveindex", "RefractiveIndex.INFO (measured)", "refractiveindex.info, n at 589.3 nm"),
     ])
     WM.ior_sort = EnumProperty(name="Sort", items=[
         ("NONE", "Default Order", ""), ("NAME", "Sort by Name", ""), ("IOR", "Sort by IOR", "")])

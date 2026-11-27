@@ -25,7 +25,7 @@ QUERIES = ["", " ", "glass", "GLASS", "  Glass  ", "water", "honey water", "gem"
            "metal", "oil, clove", "zzz", "%", "1", "1.", "1.3", "1.33", "1.333", "1.3333", "2.4", "2.42",
            "0.2", "4", "4.01", "-1", "1e0", "nan", "inf", ".5", "1,5", "garnet", "demantoid", "gold",
            "silver", "steel", "a", "e", "(liquid)", "20deg"]
-SOURCES = ["ALL", "balyberdin", "pixelandpoly", "blenderit"]
+SOURCES = ["ALL", "balyberdin", "pixelandpoly", "blenderit", "refractiveindex"]
 SORTS = ["NONE", "NAME", "IOR"]
 
 

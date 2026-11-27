@@ -40,7 +40,7 @@ def filtered(query, source="ALL", sort="NONE", list_cls="IOR_UL_materials", prop
 
 class TestData(unittest.TestCase):
     def test_material_rows(self):
-        sources = {"balyberdin", "pixelandpoly", "blenderit"}
+        sources = {"balyberdin", "pixelandpoly", "blenderit", "refractiveindex"}
         seen = set()
         for row in ADDON.MATERIALS:
             self.assertEqual(len(row), 5, row)

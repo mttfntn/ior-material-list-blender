@@ -69,7 +69,7 @@ can be applied to Metallic BSDF or Principled BSDF nodes.
 ## How to make a change
 
 1. Edit `ior_material_list/__init__.py`. For data changes, edit `tools/update_ior_data.py`
-   (`NAME_FIXES`, `BLENDERIT_EXTRA`, or the parsers), never `ior_data.py` directly.
+   (`NAME_FIXES`, `BLENDERIT_EXTRA`, `RI_PAGES`, or the parsers), never `ior_data.py` directly.
 2. Run the tests (below). For a change that shouldn't alter behaviour (refactoring, speed), also
    run the behaviour comparison.
 3. Try it in Blender: build and install the zip (see *Release*, steps 2–3), or for a quick look
@@ -140,6 +140,13 @@ git diff ior_material_list/ior_data.py    # review every change
   In that case, fix the parser in `tools/update_ior_data.py`.
 - The Blender Italia forum post has no usable structure. Its extra entries are kept by hand in
   `BLENDERIT_EXTRA`.
+- refractiveindex.info entries come from its CC0 database on GitHub. `RI_PAGES` lists which data
+  files to use (name, category, path, and a second path for a birefringent o/e range). The script
+  evaluates each page's dispersion formula or table at 589.3 nm, never outside the page's own
+  wavelength range, and stops if a page is missing, gives no value there, or absorbs strongly
+  (k > 0.1, i.e. a metal). To add a material, browse refractiveindex.info, open the page's
+  "data" link, and copy the path after `database/data/` into `RI_PAGES`.
+- `--save DIR` keeps every downloaded page; `--html DIR` regenerates from them offline.
 - If a new source id is added, also add it to `SOURCE_SITES` and to the `ior_source` enum in
   `__init__.py`. The tests check this.
 

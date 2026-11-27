@@ -40,6 +40,7 @@ The values come from these public lists (credit to their authors):
 - [balyberdin.com — IOR list](https://balyberdin.com/tools/ior-list/) (curated materials by category, and the metals)
 - [Pixel and Poly — IOR list](https://pixelandpoly.com/ior.html) (A–Z list)
 - [Blender Italia forum — Indice IOR per materiale](https://community.blender.it/forums/topic/indice-ior-per-materiale/) (a few entries missing from the other two)
+- [RefractiveIndex.INFO](https://refractiveindex.info/) (measured data for common glasses, liquids, plastics and crystals, from its [CC0 database](https://github.com/polyanskiy/refractiveindex.info-database); n at 589.3 nm, birefringent crystals as an o/e range)
 
 Some materials appear in more than one source with slightly different values; both are kept.
 
